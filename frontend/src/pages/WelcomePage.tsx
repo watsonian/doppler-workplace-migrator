@@ -11,7 +11,9 @@ import {
 } from '@/components/ui/primitives';
 import { getCheckpoint } from '@/api/client';
 import { SCIM_DOCS_URL } from '@/lib/links';
-import type { CheckpointData } from '@/api/client';
+import { formatWhen } from '@/lib/when';
+import { useStandby } from '@/hooks/useStandby';
+import type { CheckpointData, Standby } from '@/api/client';
 
 /**
  * Everything the migrator moves. Listed exhaustively and in three groups,
@@ -51,6 +53,7 @@ const NOT_MIGRATED = [
 export default function WelcomePage() {
   const navigate = useNavigate();
   const [checkpoint, setCheckpoint] = useState<CheckpointData | null>(null);
+  const { standby } = useStandby();
 
   // A checkpoint from a run that stopped is the most useful thing this screen
   // can offer, so it is looked for before anything else is read.
@@ -64,9 +67,21 @@ export default function WelcomePage() {
       });
   }, []);
 
+  // Partial runs that have finished. A full migration waiting to cut over
+  // never gets here (the index opens the waiting page), so this is the one
+  // that migrated some projects and has more to do. The tokens live in memory
+  // only, so after a restart carrying on starts at Configure, with the
+  // migration's instances filled in.
+  const carryOn = standby?.unfinished && !standby.in_flight ? standby : null;
+  const carryOnTo = carryOn?.configured ? '/scope' : '/configure';
+
   return (
     <div className="mx-auto w-full max-w-[860px] px-6 py-6">
-      {checkpoint && <ResumeBanner checkpoint={checkpoint} onDiscard={() => setCheckpoint(null)} />}
+      {checkpoint ? (
+        <ResumeBanner checkpoint={checkpoint} onDiscard={() => setCheckpoint(null)} />
+      ) : (
+        carryOn && <CarryOnBanner standby={carryOn} onContinue={() => navigate(carryOnTo)} />
+      )}
 
       <PageHeading
         title="Migrate A Doppler Workplace"
@@ -166,9 +181,15 @@ export default function WelcomePage() {
           </span>
         }
         right={
-          <Button size="md" onClick={() => navigate('/configure')}>
-            Get Started <ArrowRight size={14} />
-          </Button>
+          carryOn ? (
+            <Button size="md" onClick={() => navigate(carryOnTo)}>
+              Continue Migration <ArrowRight size={14} />
+            </Button>
+          ) : (
+            <Button size="md" onClick={() => navigate('/configure')}>
+              Get Started <ArrowRight size={14} />
+            </Button>
+          )
         }
       />
     </div>
@@ -205,6 +226,38 @@ function ResumeBanner({
           Start Fresh
         </Button>
         <Button onClick={() => navigate('/migrate')}>Resume Run</Button>
+      </span>
+    </div>
+  );
+}
+
+/**
+ * Partial runs have already put some projects on the target. Only one
+ * migration can be in progress, so the way on is to carry this one on:
+ * more projects, or the full run.
+ */
+function CarryOnBanner({ standby, onContinue }: { standby: Standby; onContinue: () => void }) {
+  const projects = standby.projects_migrated ?? 0;
+  const runs = standby.runs.length;
+  return (
+    <div className="mb-5 flex flex-wrap items-center gap-3 rounded-md border border-blue-100 bg-blue-50 px-4 py-3 text-[13px] text-gray-800">
+      <History size={16} className="shrink-0 text-blue-500" />
+      <span className="min-w-0">
+        A migration
+        {standby.target_host && (
+          <>
+            {' '}
+            to <b className="font-semibold">{standby.target_host}</b>
+          </>
+        )}{' '}
+        is in progress: {projects} {projects === 1 ? 'project' : 'projects'} migrated in {runs}{' '}
+        {runs === 1 ? 'run' : 'runs'}
+        {standby.last_synced_at && <>, most recently {formatWhen(standby.last_synced_at)}</>}.
+      </span>
+      <span className="ml-auto">
+        <Button onClick={onContinue}>
+          Continue Migration <ArrowRight size={13} />
+        </Button>
       </span>
     </div>
   );

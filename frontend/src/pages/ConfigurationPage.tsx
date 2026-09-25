@@ -115,9 +115,12 @@ export default function ConfigurationPage() {
   // instances are filled in, and the server refuses any others.
   const { standby } = useStandby();
   const inFlight = isInFlight(standby);
+  // Partial runs hold the run history too, and the server refuses other
+  // instances until cutover, so they are filled in the same way.
+  const carryingOn = inFlight || Boolean(standby?.unfinished);
   const returnTo = (useLocation().state as { returnTo?: string } | null)?.returnTo;
   useEffect(() => {
-    if (!inFlight || !standby || standby.configured) return;
+    if (!carryingOn || !standby || standby.configured) return;
     if (standby.source_host) {
       setSourceInstance(inferInstanceType(standby.source_host));
       setSourceHost(standby.source_host === DOPPLER_CLOUD_HOST ? '' : standby.source_host);
@@ -126,7 +129,7 @@ export default function ConfigurationPage() {
       setTargetInstance(inferInstanceType(standby.target_host));
       setTargetHost(standby.target_host === DOPPLER_CLOUD_HOST ? '' : standby.target_host);
     }
-  }, [inFlight, standby]);
+  }, [carryingOn, standby]);
 
   const sourceKind = detectTokenKind(sourceToken);
   const targetKind = detectTokenKind(targetToken);
@@ -197,6 +200,14 @@ export default function ConfigurationPage() {
             <span className="font-semibold text-gray-900">Carrying on the migration to {standby.target_host}.</span>{' '}
             It is waiting to cut over, and only one migration can be in progress at a time. Other
             instances can be used once it is cut over.
+          </Callout>
+        )}
+        {!inFlight && standby?.unfinished && standby.target_host && (
+          <Callout tone="info">
+            <span className="font-semibold text-gray-900">Carrying on the migration to {standby.target_host}.</span>{' '}
+            {standby.projects_migrated ?? 0} {standby.projects_migrated === 1 ? 'project has' : 'projects have'} been
+            migrated so far, and only one migration can be in progress at a time. Other instances can be
+            used once it is cut over.
           </Callout>
         )}
         {apiErrors.length > 0 && (

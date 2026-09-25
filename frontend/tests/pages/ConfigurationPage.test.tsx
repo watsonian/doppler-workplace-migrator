@@ -8,6 +8,7 @@ import * as api from '../../src/api/client';
 vi.mock('../../src/api/client', () => ({
   configure: vi.fn(),
   getConfiguration: vi.fn(),
+  getStandby: vi.fn(),
 }));
 
 const mockedNavigate = vi.fn();
@@ -57,6 +58,36 @@ describe('ConfigurationPage', () => {
       stop_on_new_error_class: true,
     });
     (api.configure as Mock).mockResolvedValue({ valid: true, dev_mode: false });
+    (api.getStandby as Mock).mockRejectedValue(new Error('no history'));
+  });
+
+  it("fills in a partial migration's instances after a restart", async () => {
+    (api.getStandby as Mock).mockResolvedValue({
+      configured: false,
+      gathered: false,
+      source_host: 'https://api.doppler.com',
+      target_host: 'https://doppler.internal.acme.com',
+      full_done: false,
+      in_flight: false,
+      waiting: false,
+      unfinished: true,
+      projects_migrated: 3,
+      top_ups: 0,
+      runs: [],
+      tokens_pending: 0,
+      open_errors: 0,
+      manual: [],
+    });
+
+    renderPage();
+    expect(
+      await screen.findByText('Carrying on the migration to https://doppler.internal.acme.com.'),
+    ).toBeInTheDocument();
+    expect(screen.getByText(/3 projects have been migrated so far/)).toBeInTheDocument();
+    // The target unlocks once the source has a token.
+    await fillSource(userEvent.setup());
+    const hosts = await screen.findAllByLabelText('Host');
+    await waitFor(() => expect(hosts[hosts.length - 1]).toHaveValue('https://doppler.internal.acme.com'));
   });
 
   it('renders the two endpoints and the options', async () => {

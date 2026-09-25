@@ -47,10 +47,15 @@ type standbyResponse struct {
 	// InFlight is true from the end of the full run until cutover. While it
 	// is, this migration is the only one: the index opens the waiting page,
 	// and a partial run or other instances are refused.
-	InFlight     bool       `json:"in_flight"`
-	Waiting      bool       `json:"waiting"`
-	WaitingSince *time.Time `json:"waiting_since,omitempty"`
-	CutoverAt    *time.Time `json:"cutover_at,omitempty"`
+	InFlight bool `json:"in_flight"`
+	Waiting  bool `json:"waiting"`
+	// Unfinished is true once any run has finished and until cutover, partial
+	// runs included: Welcome offers to carry on rather than start again.
+	Unfinished bool `json:"unfinished"`
+	// ProjectsMigrated counts the projects any run has covered.
+	ProjectsMigrated int        `json:"projects_migrated"`
+	WaitingSince     *time.Time `json:"waiting_since,omitempty"`
+	CutoverAt        *time.Time `json:"cutover_at,omitempty"`
 
 	FullAt       *time.Time `json:"full_at,omitempty"`
 	LastSyncedAt *time.Time `json:"last_synced_at,omitempty"`
@@ -96,6 +101,8 @@ func (s *Server) buildStandby() standbyResponse {
 	out.FullDone = hist.FullDone()
 	out.InFlight = hist.InFlight()
 	out.Waiting = hist.Waiting()
+	out.Unfinished = hist.Unfinished()
+	out.ProjectsMigrated = len(hist.Migrated())
 	out.WaitingSince = hist.WaitingSince
 	out.CutoverAt = hist.CutoverAt
 	out.TopUps = hist.TopUps()

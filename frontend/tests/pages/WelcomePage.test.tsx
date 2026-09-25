@@ -7,7 +7,32 @@ import * as api from '../../src/api/client';
 
 vi.mock('../../src/api/client', () => ({
   getCheckpoint: vi.fn(),
+  getStandby: vi.fn(),
 }));
+
+/** A migration two partial runs into its target, as the history on disk has it. */
+function partialStandby(configured: boolean) {
+  return {
+    configured,
+    gathered: false,
+    source_host: 'https://api.doppler.com',
+    target_host: 'https://doppler.internal.acme.com',
+    full_done: false,
+    in_flight: false,
+    waiting: false,
+    unfinished: true,
+    projects_migrated: 3,
+    last_synced_at: '2026-09-24T14:02:00Z',
+    top_ups: 0,
+    runs: [
+      { kind: 'partial', at: '2026-09-24T14:02:00Z', projects: 2, created: 40, updated: 0, failed: 0 },
+      { kind: 'partial', at: '2026-09-23T10:00:00Z', projects: 1, created: 12, updated: 0, failed: 0 },
+    ],
+    tokens_pending: 0,
+    open_errors: 0,
+    manual: [],
+  };
+}
 
 const mockedNavigate = vi.fn();
 vi.mock('react-router-dom', async () => {
@@ -27,6 +52,46 @@ describe('WelcomePage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
     (api.getCheckpoint as Mock).mockRejectedValue(new Error('no checkpoint'));
+    (api.getStandby as Mock).mockResolvedValue({ ...partialStandby(false), unfinished: false, runs: [] });
+  });
+
+  it('offers to carry on a partial migration instead of starting again', async () => {
+    const user = userEvent.setup();
+    (api.getStandby as Mock).mockResolvedValue(partialStandby(false));
+
+    renderPage();
+    expect(await screen.findByText(/is in progress: 3 projects migrated in 2 runs/)).toBeInTheDocument();
+    expect(screen.getByText('https://doppler.internal.acme.com')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Get Started/ })).not.toBeInTheDocument();
+
+    // After a restart the tokens are gone, so carrying on starts at Configure.
+    const buttons = screen.getAllByRole('button', { name: /Continue Migration/ });
+    expect(buttons).toHaveLength(2);
+    await user.click(buttons[0]);
+    expect(mockedNavigate).toHaveBeenCalledWith('/configure');
+  });
+
+  it('carries on at Scope while the tokens are still held', async () => {
+    const user = userEvent.setup();
+    (api.getStandby as Mock).mockResolvedValue(partialStandby(true));
+
+    renderPage();
+    await user.click((await screen.findAllByRole('button', { name: /Continue Migration/ }))[1]);
+    expect(mockedNavigate).toHaveBeenCalledWith('/scope');
+  });
+
+  it('offers to resume a stopped run ahead of carrying on', async () => {
+    (api.getStandby as Mock).mockResolvedValue(partialStandby(true));
+    (api.getCheckpoint as Mock).mockResolvedValue({
+      started_at: '2026-09-17T09:38:14Z',
+      updated_at: '2026-09-17T09:52:06Z',
+      completed: false,
+      phases: {},
+    });
+
+    renderPage();
+    expect(await screen.findByRole('button', { name: 'Resume Run' })).toBeInTheDocument();
+    expect(screen.queryByText(/is in progress/)).not.toBeInTheDocument();
   });
 
   it('names what the tool does and what it leaves alone', async () => {

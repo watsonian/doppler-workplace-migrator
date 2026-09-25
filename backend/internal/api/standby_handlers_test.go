@@ -149,6 +149,23 @@ func TestWelcomeCanSeeAWaitingMigrationBeforeConfigure(t *testing.T) {
 	}
 }
 
+func TestWelcomeCanSeeAPartialMigrationBeforeConfigure(t *testing.T) {
+	s, h := scopeServer(t)
+	_ = s.history().Record(migration.ScopeRun{Mode: migration.ScopePartial, Projects: []string{"payments", "api"}, At: time.Now()})
+	_ = s.history().Record(migration.ScopeRun{Mode: migration.ScopePartial, Projects: []string{"api", "web"}, At: time.Now()})
+	s.config = nil
+
+	out := decodeStandby(t, getPath(t, h, "/api/v1/standby").Body.Bytes())
+	if !out.Unfinished || out.InFlight || out.ProjectsMigrated != 3 || len(out.Runs) != 2 || !strings.Contains(out.TargetHost, "tgt") {
+		t.Fatalf("%+v", out)
+	}
+
+	_ = s.history().RecordCutover(time.Now())
+	if out := decodeStandby(t, getPath(t, h, "/api/v1/standby").Body.Bytes()); out.Unfinished {
+		t.Fatalf("after cutover: %+v", out)
+	}
+}
+
 func TestAWaitingMigrationResumesWithTheEnvironmentsTokens(t *testing.T) {
 	// After a restart the waiting page asked for tokens the environment was
 	// already providing.

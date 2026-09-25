@@ -969,6 +969,10 @@ export interface Standby {
   /** From the end of the full run until cutover: the one migration in progress. */
   in_flight: boolean;
   waiting: boolean;
+  /** Any run has finished, partial ones included, and cutover has not. */
+  unfinished?: boolean;
+  /** Projects any run has covered. */
+  projects_migrated?: number;
   waiting_since?: string | null;
   cutover_at?: string | null;
   full_at?: string | null;
