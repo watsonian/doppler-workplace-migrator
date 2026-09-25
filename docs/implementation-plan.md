@@ -1,6 +1,6 @@
-# Doppler On-Prem Migrator — Implementation Plan
+# Doppler Workplace Migrator — Implementation Plan
 
-This document is a self-contained prompt for Claude Code to build the Doppler On-Prem Migration Tool from scratch. It references two companion documents that must be read before starting:
+This document is a self-contained prompt for Claude Code to build the Doppler Workplace Migrator from scratch. It references two companion documents that must be read before starting:
 
 - `docs/technical-design.md` — architecture, API details, data model, checkpoint system
 - `docs/styleguide.md` — visual design system, components, colors, typography
@@ -62,7 +62,7 @@ Build each phase completely (tests + implementation + verification) before movin
 #### 1.1 Go Backend Setup
 
 Create `backend/` with:
-- `go.mod` with module name `github.com/doppler/onprem-migrator`
+- `go.mod` with module name `github.com/doppler/workplace-migrator`
 - `cmd/server/main.go` — entry point that starts HTTP server, embeds frontend
 - `embed.go` — `//go:embed` directive for `backend/webui` (the frontend build is copied there)
 - `internal/api/routes.go` — router setup using `net/http` ServeMux (Go 1.22 enhanced routing)

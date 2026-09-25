@@ -1,4 +1,4 @@
-# Doppler On-Prem Migrator
+# Doppler Workplace Migrator
 
 Copy a Doppler workplace to another Doppler instance with a guided web UI. The usual move is from Doppler.com to a self-hosted instance, but either side can be Doppler.com or self-hosted. Nothing on the source is changed, and no secret value is ever written to disk.
 
@@ -75,8 +75,8 @@ The server binds to `127.0.0.1:8080`. Open `http://localhost:8080` and follow th
 ### Docker
 
 ```bash
-git clone https://github.com/doppler/onprem-migrator.git
-cd onprem-migrator
+git clone https://github.com/doppler/workplace-migrator.git
+cd workplace-migrator
 make docker-build
 docker run -p 127.0.0.1:8080:8080 -v ./data:/data doppler-migrator
 ```

@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // workplaceUser builds a WorkplaceUser; the nested User is an anonymous struct,

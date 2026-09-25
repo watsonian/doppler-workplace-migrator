@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	defaultUserAgent = "doppler-onprem-migrator/1.0"
+	defaultUserAgent = "doppler-workplace-migrator/1.0"
 	defaultPerPage   = 100
 	maxRetries       = 3
 	// maxRateLimitRetries bounds how many times a single request will wait out a

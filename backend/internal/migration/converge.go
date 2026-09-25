@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // RunMode decides what a run is allowed to do, not what it is able to.

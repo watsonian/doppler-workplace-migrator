@@ -7,7 +7,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // The final report: the whole migration in one document, for whoever signs it

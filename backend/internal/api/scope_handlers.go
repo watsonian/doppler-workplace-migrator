@@ -9,8 +9,8 @@ import (
 	"sort"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // Migration scope: full or partial, and what a run over it will do.

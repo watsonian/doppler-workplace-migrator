@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // MigrationConfig holds the configuration for a migration session.

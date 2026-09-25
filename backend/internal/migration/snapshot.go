@@ -10,7 +10,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // TargetSnapshot is what the target holds right now.

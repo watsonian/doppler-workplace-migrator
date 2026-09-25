@@ -1,4 +1,4 @@
-# Doppler On-Prem Migrator — Technical Design Document
+# Doppler Workplace Migrator — Technical Design Document
 
 ## 1. Overview
 
@@ -28,7 +28,7 @@ A one-shot migration tool that moves an entire Doppler.com workplace to a self-h
 ### Project Structure
 
 ```
-doppler-onprem-migrator/
+workplace-migrator/
 ├── CLAUDE.md
 ├── Dockerfile
 ├── docker-compose.yml

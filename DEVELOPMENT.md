@@ -29,7 +29,7 @@ installed: `npm install -g pnpm@11.22.0`.
 ## Project Structure
 
 ```
-doppler-onprem-migrator/
+workplace-migrator/
 ├── backend/                  # Go backend (API server)
 │   ├── cmd/server/main.go    # Entry point
 │   ├── embed.go              # Frontend static file embedding

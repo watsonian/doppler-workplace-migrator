@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // DriftDetector finds changes made to the target by somebody other than this

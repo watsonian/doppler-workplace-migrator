@@ -13,7 +13,7 @@
 help: ## Show this help
 	@awk 'BEGIN { \
 			FS = ":.*##"; \
-			printf "\nDoppler On-Prem Migrator\n\nUsage:\n  make \033[36m<target>\033[0m\n"; \
+			printf "\nDoppler Workplace Migrator\n\nUsage:\n  make \033[36m<target>\033[0m\n"; \
 		} \
 		/^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5); next } \
 		/^[a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2 }' $(MAKEFILE_LIST)

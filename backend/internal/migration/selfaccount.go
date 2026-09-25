@@ -1,6 +1,6 @@
 package migration
 
-import "github.com/doppler/onprem-migrator/internal/doppler"
+import "github.com/doppler/workplace-migrator/internal/doppler"
 
 // ExcludeServiceAccount takes the service account the source token belongs to
 // out of the migration, along with its tokens, identities and memberships.

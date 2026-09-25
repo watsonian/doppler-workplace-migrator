@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // Rate-limit pauses, made visible.

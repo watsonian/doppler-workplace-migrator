@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // Disposition is what a run will do about one difference.

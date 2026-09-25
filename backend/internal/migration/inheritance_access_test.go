@@ -9,7 +9,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 func inheritanceFixture() *MigrationData {

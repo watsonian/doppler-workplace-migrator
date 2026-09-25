@@ -589,7 +589,7 @@ done`);
 curl -sS -X POST "$API/workplace/service_accounts/service_account/$SA/tokens" \\
   -H "Authorization: Bearer $DOPPLER_TOKEN" \\
   -H "Content-Type: application/json" \\
-  -d '{"name": "onprem-migrator"}' | jq -r '.api_key'`);
+  -d '{"name": "workplace-migrator"}' | jq -r '.api_key'`);
 
   if (access === 'default_role') {
     steps.push(`# Last, in the dashboard, since it has no API: Team > Roles > Default Roles,

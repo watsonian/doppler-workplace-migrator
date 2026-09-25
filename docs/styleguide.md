@@ -1,4 +1,4 @@
-# Doppler On-Prem Migrator — Styleguide
+# Doppler Workplace Migrator — Styleguide
 
 This styleguide defines the visual language for the migration tool, closely inspired by Doppler's brand identity. Since Doppler uses a proprietary font (DopplerRepro), we substitute Inter — a modern, clean sans-serif with similar characteristics that is freely available via Google Fonts.
 

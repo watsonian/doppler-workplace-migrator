@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // crossInstanceFixture is one project, one group and one account migrated

@@ -1,6 +1,6 @@
-# Doppler On-Prem Migrator — Build Prompt
+# Doppler Workplace Migrator — Build Prompt
 
-You are building the Doppler On-Prem Migrator from scratch. This is a one-shot migration tool that moves an entire Doppler.com workplace to a self-hosted (on-prem) Doppler instance via the Doppler REST API (https://docs.doppler.com/reference/api). The on-prem API is identical to Doppler.com but uses a customer-specified host URL.
+You are building the Doppler Workplace Migrator from scratch. This is a one-shot migration tool that moves an entire Doppler.com workplace to a self-hosted (on-prem) Doppler instance via the Doppler REST API (https://docs.doppler.com/reference/api). The on-prem API is identical to Doppler.com but uses a customer-specified host URL.
 
 ## Required Reading
 

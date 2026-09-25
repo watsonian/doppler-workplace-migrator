@@ -5,7 +5,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // Scope is what a run migrates: the whole source, or a chosen set of projects.

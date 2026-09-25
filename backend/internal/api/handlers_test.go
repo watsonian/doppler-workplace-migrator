@@ -10,8 +10,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // tokenPtr builds the pointer the configure request now uses for token fields,

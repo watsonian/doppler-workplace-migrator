@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // mockDopplerServer creates a test server with configurable endpoint responses.

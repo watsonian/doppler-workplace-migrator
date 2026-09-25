@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // apiRoot normalizes a host the way the Doppler client does, so a failure's URL

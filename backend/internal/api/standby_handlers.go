@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // Waiting to cut over: a full migration has run, the source is still in use,

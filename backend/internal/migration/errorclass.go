@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // ErrorClassKey identifies a kind of failure.

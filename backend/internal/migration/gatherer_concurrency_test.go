@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/doppler"
 )
 
 // slowSource is a mock source whose secret reads take time, and which records

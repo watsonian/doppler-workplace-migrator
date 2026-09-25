@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/doppler/onprem-migrator/internal/doppler"
-	"github.com/doppler/onprem-migrator/internal/migration"
+	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppler/workplace-migrator/internal/migration"
 )
 
 // scopeServer is a server with four gathered projects, its state kept in a
