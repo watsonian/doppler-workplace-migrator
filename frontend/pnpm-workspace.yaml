@@ -53,15 +53,19 @@ confirmModulesPurge: false
 # Listing both platforms makes pnpm treat both sets as wanted, so neither install
 # prunes the other. It costs ~38M of binaries that the idle platform isn't running.
 #
-# The list is additive: pnpm always installs the platform it is running on, whether
-# or not it appears here. CI (linux/x64) and the Alpine build stage (linux/musl)
-# therefore need no entry — and get none, since their node_modules is not shared
-# with anything and paying for four platforms there would be waste.
+# The list replaces the platform pnpm is running on rather than adding to it, so
+# each dimension starts with "current", which pnpm swaps for the machine doing the
+# install. Without it, an Intel Mac gets no darwin-x64 binaries, CI no linux-x64,
+# and the Alpine build stage no musl ones — every build but the two above breaks.
+# Those installs also fetch the darwin/linux arm64 glibc binaries they won't run.
 supportedArchitectures:
   os:
+    - current
     - darwin
     - linux
   cpu:
+    - current
     - arm64
   libc:
+    - current
     - glibc
