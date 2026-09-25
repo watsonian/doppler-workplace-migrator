@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build output
+frontend/dist/
+frontend/*.tsbuildinfo
+backend/server
+
+# Built frontend copied into the Go embed directory. .gitkeep is committed so the
+# //go:embed directive resolves without a frontend build; the rest is build output.
+backend/webui/*
+!backend/webui/.gitkeep
+
+# Data
+data/
+*.checkpoint.json
+migration-checkpoint.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Per-developer Claude Code settings (machine-specific paths); .claude/settings.json
+# is the shared one and stays tracked.
+.claude/settings.local.json
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local

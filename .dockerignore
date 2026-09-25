@@ -1,0 +1,10 @@
+.git
+.claude
+docs
+data
+node_modules
+frontend/node_modules
+frontend/dist
+frontend/tests
+*.md
+!README.md

@@ -1,0 +1,11 @@
+# Dry-run override. Layer this on top of docker-compose.yml to walk the full wizard
+# without a real on-prem instance — pre-flight checks against the target are skipped
+# and no writes are performed.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# Never use this for an actual migration: it reports success having changed nothing.
+services:
+  migrator:
+    environment:
+      - DEV_MODE=true

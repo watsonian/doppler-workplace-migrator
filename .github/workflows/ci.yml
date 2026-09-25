@@ -1,0 +1,126 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+# Cancel superseded runs on the same ref.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          # The backend has no third-party dependencies and therefore no go.sum,
+          # which the module cache would otherwise look for.
+          cache: false
+
+      # pnpm before Node: setup-node's pnpm cache needs the binary to exist.
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11.22.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      # --frozen-lockfile fails on lockfile drift, and the install re-checks every
+      # entry against the supply-chain policy in frontend/pnpm-workspace.yaml.
+      - name: Install frontend dependencies
+        working-directory: frontend
+        run: pnpm install --frozen-lockfile
+
+      - name: Vet
+        working-directory: backend
+        run: go vet ./...
+
+      - name: Check formatting
+        working-directory: backend
+        run: |
+          unformatted=$(gofmt -l .)
+          if [ -n "$unformatted" ]; then
+            echo "These files need gofmt:" >&2
+            echo "$unformatted" >&2
+            exit 1
+          fi
+
+      - name: Backend tests
+        working-directory: backend
+        run: go test ./... -race
+
+      - name: Frontend typecheck
+        working-directory: frontend
+        run: pnpm exec tsc -b
+
+      - name: Frontend tests
+        working-directory: frontend
+        run: pnpm test
+
+  image:
+    name: Container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # This job exists to prove the Dockerfile still builds: it pins base images
+      # (node:24.14-alpine, golang:1.25-alpine) that nothing else verifies, and it
+      # is the only place the embedded-frontend build is exercised end to end.
+      - name: Build image
+        run: docker build -t doppler-migrator .
+
+      - name: Smoke test the container
+        run: |
+          set -euo pipefail
+          docker run -d --name migrator -p 127.0.0.1:8080:8080 doppler-migrator
+
+          # Wait for the server rather than sleeping a fixed amount.
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8080/api/v1/status >/dev/null 2>&1; then
+              break
+            fi
+            if [ "$i" -eq 30 ]; then
+              echo "server did not come up" >&2
+              docker logs migrator >&2
+              exit 1
+            fi
+            sleep 1
+          done
+
+          # The API answers.
+          curl -fsS http://127.0.0.1:8080/api/v1/status | grep -q '"migrating":false'
+
+          # The real frontend is embedded, not the placeholder that only exists so
+          # //go:embed resolves on a clean checkout.
+          body=$(curl -fsS http://127.0.0.1:8080/)
+          echo "$body" | grep -qi '<div id="root">' || {
+            echo "index.html does not look like the built frontend:" >&2
+            echo "$body" >&2
+            exit 1
+          }
+
+          # The origin guard rejects a foreign Origin.
+          status=$(curl -s -o /dev/null -w '%{http_code}' \
+            -H 'Origin: https://evil.example' http://127.0.0.1:8080/api/v1/status)
+          [ "$status" = "403" ] || { echo "origin guard did not reject: $status" >&2; exit 1; }
+
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs migrator || true
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f migrator || true

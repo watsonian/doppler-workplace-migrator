@@ -1,0 +1,23 @@
+services:
+  migrator:
+    build: .
+    ports:
+      # Published on loopback only. Docker inserts its own iptables rules, so a bare
+      # "8080:8080" publishes on every host interface and bypasses host firewall
+      # rules — exposing an unauthenticated secrets-moving API to the network.
+      - "127.0.0.1:8080:8080"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8080
+      # DEV_MODE is deliberately not set here. The README offers `docker compose up`
+      # as a way to run a real migration, and DEV_MODE bypasses every write to the
+      # target — a run under it would report success having changed nothing.
+      # For a dry run, use: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+      - CHECKPOINT_DIR=/data
+      # Passed through from the shell when set, and left out when not, so the
+      # Configuration page opens with the tokens already filled. The page is
+      # shown only a hint; the values stay in the server.
+      - SOURCE_DOPPLER_TOKEN
+      - TARGET_DOPPLER_TOKEN
+    volumes:
+      - ./data:/data
