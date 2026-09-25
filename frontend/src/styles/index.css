@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-gray-25 text-gray-800 font-sans text-sm;
+  }
+
+  /*
+   * Focus says two things, and they are never said at once.
+   *
+   * Tab to a field and you get the blue outline: purple is the selected state
+   * throughout the product, so a purple ring would read as "this is chosen"
+   * rather than "this is where your keyboard is". Click into one and you get
+   * the purple border instead — you already know where you clicked, and an
+   * outline as well would be noise.
+   *
+   * Both are keyed off the last interaction rather than `:focus-visible`,
+   * because browsers match `:focus-visible` on a clicked text input too, which
+   * would light both at once. See lib/focusModality.ts.
+   */
+  /*
+   * The browser draws its own ring on :focus-visible, and matches that on a
+   * clicked text input for the same reason described above — so it has to come
+   * off before ours goes on, or a click shows the native blue ring next to our
+   * purple border.
+   */
+  :focus-visible {
+    @apply outline-none;
+  }
+
+  :root[data-modality='keyboard'] :focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-blue-500;
+  }
+
+  :root[data-modality='pointer'] .dp-control:focus {
+    @apply border-purple-500;
+  }
+
+  /* Headings and buttons are Title Case; everything else is sentence case. */
+  h1,
+  h2,
+  h3 {
+    @apply text-gray-900 font-semibold;
+    text-wrap: balance;
+  }
+}
+
+@layer components {
+  /* Identifiers — secret names, config paths, tokens, URLs — are always mono. */
+  .identifier {
+    @apply font-mono;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

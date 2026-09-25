@@ -1,0 +1,67 @@
+# Supply-chain policy. These mirror the settings in the main Doppler server repo
+# (server/pnpm-workspace.yaml) so both apply the same rules, with two additions noted
+# below. Do not add `dangerouslyAllowAllBuilds` — it disables the allowBuilds gate
+# entirely.
+
+# Dependencies permitted to run install scripts. pnpm blocks all install scripts by
+# default; this is the allowlist. Entries are pinned to an exact version so a later
+# compromised release does not inherit the permission. esbuild needs its script to
+# fetch a platform-specific binary, and Vite needs esbuild.
+allowBuilds:
+  esbuild@0.28.2: true
+
+# Refuse transitive dependencies resolved from git URLs, tarball URLs, or anything
+# else that isn't the configured registry.
+blockExoticSubdeps: true
+
+# Fail the install when a package wants to run an install script and isn't in
+# allowBuilds, rather than skipping it with a warning that's easy to scroll past.
+strictDepBuilds: true
+
+# Don't adopt any version published less than 3 days ago. This is the main defense
+# against a compromised maintainer account or a self-propagating worm: malicious
+# releases are typically caught and unpublished within hours.
+minimumReleaseAge: 4320 # 3 days
+
+# Beyond server/: refuse to silently bypass the age gate. Without this, pnpm writes
+# an automatic minimumReleaseAgeExclude entry for anything too new and installs it
+# anyway — which it did here, pulling in packages that were 8 and 13 hours old.
+minimumReleaseAgeStrict: true
+
+# Refuse a resolution that moves a package backwards, which is the shape of a
+# downgrade attack. trustPolicyIgnoreAfter exempts releases older than a year, for
+# packages that backport security fixes to lines predating provenance attestations.
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 525600 # one year
+
+# Never install implicitly from `pnpm run`. scripts/dev.sh and scripts/build.sh run
+# an explicit install first, so the implicit one would only ever fire in the
+# background, where its output — and any prompt it needs answered — is easy to miss.
+verifyDepsBeforeRun: warn
+
+# Beyond server/: don't prompt before rebuilding node_modules. The prompt aborts
+# outright when there's no TTY (ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY), which
+# breaks CI, Docker, and backgrounded builds.
+confirmModulesPurge: false
+
+# This node_modules is on a shared mount: the same tree is used from the macOS host
+# and from the Linux devcontainer. esbuild, rollup, and tsc each ship their native
+# binary as a platform-gated optional dependency, so by default an install on one
+# side prunes the other side's binary and the next command over there dies with
+# "@rollup/rollup-linux-arm64-gnu not found" — a full reinstall each time you switch.
+#
+# Listing both platforms makes pnpm treat both sets as wanted, so neither install
+# prunes the other. It costs ~38M of binaries that the idle platform isn't running.
+#
+# The list is additive: pnpm always installs the platform it is running on, whether
+# or not it appears here. CI (linux/x64) and the Alpine build stage (linux/musl)
+# therefore need no entry — and get none, since their node_modules is not shared
+# with anything and paying for four platforms there would be waste.
+supportedArchitectures:
+  os:
+    - darwin
+    - linux
+  cpu:
+    - arm64
+  libc:
+    - glibc
