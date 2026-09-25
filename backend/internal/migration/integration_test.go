@@ -6,7 +6,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // multiProjectData creates a realistic dataset with multiple projects, environments, configs, and secrets.

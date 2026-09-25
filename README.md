@@ -75,7 +75,7 @@ The server binds to `127.0.0.1:8080`. Open `http://localhost:8080` and follow th
 ### Docker
 
 ```bash
-git clone https://github.com/doppler/workplace-migrator.git
+git clone https://github.com/doppleruniversity/workplace-migrator.git
 cd workplace-migrator
 make docker-build
 docker run -p 127.0.0.1:8080:8080 -v ./data:/data doppler-migrator

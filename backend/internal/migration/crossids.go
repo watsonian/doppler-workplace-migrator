@@ -3,7 +3,7 @@ package migration
 import (
 	"strings"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // crossIndex translates source identities into target ones.

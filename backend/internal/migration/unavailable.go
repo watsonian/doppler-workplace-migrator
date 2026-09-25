@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"sort"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // Resources the gather can go without. Each is either gated by a permission

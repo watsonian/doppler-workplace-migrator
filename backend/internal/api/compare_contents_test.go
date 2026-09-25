@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
-	"github.com/doppler/workplace-migrator/internal/migration"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/migration"
 )
 
 // The contents travel through the handler to the page, not just out of the diff.

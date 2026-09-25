@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 func apiErr(status int, message, body string, opts ...func(*doppler.APIError)) *doppler.APIError {

@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 
-	backend "github.com/doppler/workplace-migrator"
+	backend "github.com/doppleruniversity/workplace-migrator"
 )
 
 // NewRouter creates the HTTP router with all API routes and static file serving.

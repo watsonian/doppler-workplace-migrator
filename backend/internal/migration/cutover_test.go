@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // trustedIPTarget records the order of trusted-IP operations, which is the part

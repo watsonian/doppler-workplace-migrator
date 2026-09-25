@@ -14,9 +14,9 @@ import (
 	"sync"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
-	"github.com/doppler/workplace-migrator/internal/migration"
-	"github.com/doppler/workplace-migrator/internal/preflight"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/migration"
+	"github.com/doppleruniversity/workplace-migrator/internal/preflight"
 )
 
 const (

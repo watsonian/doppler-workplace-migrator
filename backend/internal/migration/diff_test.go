@@ -3,7 +3,7 @@ package migration
 import (
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 func secret(raw string) doppler.Secret {

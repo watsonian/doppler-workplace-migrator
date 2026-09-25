@@ -8,8 +8,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
-	"github.com/doppler/workplace-migrator/internal/migration"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/migration"
 )
 
 // compareResponse is the Compare step: both sides read, and what differs.

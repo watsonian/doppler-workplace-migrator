@@ -8,8 +8,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
-	"github.com/doppler/workplace-migrator/internal/migration"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/migration"
 )
 
 func getPath(t *testing.T, h http.Handler, path string) *httptest.ResponseRecorder {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // Secret values do not outlive the write that needs them. Once a config has

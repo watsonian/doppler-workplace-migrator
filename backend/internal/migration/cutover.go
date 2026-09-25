@@ -8,7 +8,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // TrustedIPWork is what mirroring one config's trusted ranges will do.

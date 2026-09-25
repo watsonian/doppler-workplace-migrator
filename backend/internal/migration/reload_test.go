@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // migratedEarlier is a workplace as it stands after a run in this session:

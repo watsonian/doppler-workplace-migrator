@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 func TestChangesFromCheckpointNameThingsAsPeopleKnowThem(t *testing.T) {

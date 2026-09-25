@@ -9,8 +9,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
-	"github.com/doppler/workplace-migrator/internal/migration"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/migration"
 )
 
 // Service token issuance.

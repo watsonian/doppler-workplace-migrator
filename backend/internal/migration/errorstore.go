@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // Evidence is a Doppler API exchange, recorded so a failure can be diagnosed.

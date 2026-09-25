@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // mockClient implements DopplerClient for testing.

@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // Executor runs the 8-phase migration against the target instance.

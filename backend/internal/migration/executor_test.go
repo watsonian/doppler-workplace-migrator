@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // mockReadWriteClient implements DopplerReadWriter for executor testing.

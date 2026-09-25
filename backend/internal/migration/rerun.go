@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // RerunRequest is a remedy applied to a selection of failures.

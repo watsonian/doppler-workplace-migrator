@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // scopeData is a small workplace with the dependency shapes a partial has to

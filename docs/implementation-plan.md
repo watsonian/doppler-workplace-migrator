@@ -62,7 +62,7 @@ Build each phase completely (tests + implementation + verification) before movin
 #### 1.1 Go Backend Setup
 
 Create `backend/` with:
-- `go.mod` with module name `github.com/doppler/workplace-migrator`
+- `go.mod` with module name `github.com/doppleruniversity/workplace-migrator`
 - `cmd/server/main.go` — entry point that starts HTTP server, embeds frontend
 - `embed.go` — `//go:embed` directive for `backend/webui` (the frontend build is copied there)
 - `internal/api/routes.go` — router setup using `net/http` ServeMux (Go 1.22 enhanced routing)

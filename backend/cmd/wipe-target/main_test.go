@@ -12,7 +12,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // stubTarget is a target workplace that records every DELETE it receives.

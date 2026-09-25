@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/api"
+	"github.com/doppleruniversity/workplace-migrator/internal/api"
 )
 
 func main() {

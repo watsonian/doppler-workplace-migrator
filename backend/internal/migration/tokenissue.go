@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // TokenIssuer creates tokens on the target and records the fact in the ledger.

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/doppler/workplace-migrator/internal/doppler"
+	"github.com/doppleruniversity/workplace-migrator/internal/doppler"
 )
 
 // Gatherer reads all migratable resources from a source Doppler instance.
