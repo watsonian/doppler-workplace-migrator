@@ -69,11 +69,12 @@ export default function WelcomePage() {
 
   // Partial runs that have finished. A full migration waiting to cut over
   // never gets here (the index opens the waiting page), so this is the one
-  // that migrated some projects and has more to do. The tokens live in memory
-  // only, so after a restart carrying on starts at Configure, with the
-  // migration's instances filled in.
+  // that migrated some projects and has more to do. It carries on at the first
+  // step not yet done this session: the tokens live in memory only, so after a
+  // restart that is Configure, with the migration's instances filled in; and
+  // Scope lists the gathered projects, so it waits for Gather.
   const carryOn = standby?.unfinished && !standby.in_flight ? standby : null;
-  const carryOnTo = carryOn?.configured ? '/scope' : '/configure';
+  const carryOnTo = !carryOn?.configured ? '/configure' : carryOn.gathered ? '/scope' : '/gathering';
 
   return (
     <div className="mx-auto w-full max-w-[860px] px-6 py-6">

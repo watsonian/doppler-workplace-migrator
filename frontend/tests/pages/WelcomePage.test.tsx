@@ -71,13 +71,23 @@ describe('WelcomePage', () => {
     expect(mockedNavigate).toHaveBeenCalledWith('/configure');
   });
 
-  it('carries on at Scope while the tokens are still held', async () => {
+  it('carries on at Scope while the tokens and the gathered source are still held', async () => {
     const user = userEvent.setup();
-    (api.getStandby as Mock).mockResolvedValue(partialStandby(true));
+    (api.getStandby as Mock).mockResolvedValue({ ...partialStandby(true), gathered: true });
 
     renderPage();
     await user.click((await screen.findAllByRole('button', { name: /Continue Migration/ }))[1]);
     expect(mockedNavigate).toHaveBeenCalledWith('/scope');
+  });
+
+  it('carries on at Gather when the source has not been read this session', async () => {
+    // Scope lists the gathered projects, so it cannot come first.
+    const user = userEvent.setup();
+    (api.getStandby as Mock).mockResolvedValue(partialStandby(true));
+
+    renderPage();
+    await user.click((await screen.findAllByRole('button', { name: /Continue Migration/ }))[0]);
+    expect(mockedNavigate).toHaveBeenCalledWith('/gathering');
   });
 
   it('offers to resume a stopped run ahead of carrying on', async () => {
